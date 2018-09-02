@@ -1,0 +1,21 @@
+{
+  "name": "store-review-noti",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "ssh": "sudo gcloud compute ssh instance-1",
+    "deploy": "sudo gcloud compute scp --recurse config.json package.json api-*.json *.js instance-1:/home/bsscco/store-review-noti"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "googleapis": "^33.0.0",
+    "moment": "^2.21.0",
+    "node-json-db": "^0.7.5"
+  }
+}
