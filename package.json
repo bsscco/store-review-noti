@@ -8,7 +8,7 @@
     "ssh": "sudo gcloud compute ssh instance-1",
     "deploy": "sudo gcloud compute scp --recurse config.json package.json api-*.json *.js instance-1:/home/bsscco/store-review-noti"
   },
-  "author": "",
+  "author": "bsscco@gmail.com",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
