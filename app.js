@@ -41,7 +41,7 @@ app.get('/notify-new-review', (req, res) => {
             res.data.reviews.filter(rd => {
                 if (!(rd.reviewId in data)) {
                     filteredReviewList.push(rd);
-                    if (rd.comments[0].userComment.starRating == 1) {
+                    if (rd.comments[0].userComment.starRating <= 2) {
                         filteredReviewListCritical.push(rd);
                     }
                     db.push('/' + rd.reviewId, '')
