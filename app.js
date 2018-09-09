@@ -1,7 +1,7 @@
 console.log(new Date().toTimeString());
 
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('config.json'));
+const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));
 const APP_ACCESS_TOKEN = config.app_access_token;
 const SLACK_REVIEW_CHANNEL_ID = config.slack_store_review_channel_id;
 const SLACK_CRITIAL_REVIEW_CHANNEL_ID = config.slack_store_critical_review_channel_id;
@@ -117,13 +117,12 @@ function makeReviewMsgPayload(slackChannelId, reviewList) {
 }
 
 function sendMsg(responseUrl, payload) {
-    return axios
-        .post(responseUrl ? responseUrl : 'https://slack.com/api/chat.postMessage', JSON.stringify(payload), {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + APP_ACCESS_TOKEN
-            }
-        });
+    return axios.post(responseUrl ? responseUrl : 'https://slack.com/api/chat.postMessage', JSON.stringify(payload), {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + APP_ACCESS_TOKEN
+        }
+    });
 }
 
 // Start the server
