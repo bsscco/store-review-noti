@@ -68,7 +68,7 @@ function getAccessToken() {
     return new Promise(function (resolve, reject) {
         const jwt = new google.auth.JWT(
             null,
-            path.join(__dirname, 'api-5470769708148396614-478778-1b0ffbf69881.json'), //키 파일의 위치
+            path.join(__dirname, 'google-service-account.json'), //키 파일의 위치
             null,
             ['https://www.googleapis.com/auth/androidpublisher'], //scope
             ''
