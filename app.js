@@ -2,8 +2,6 @@ console.log(new Date().toTimeString());
 
 const fs = require('fs');
 const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));
-const APP_ACCESS_TOKEN = config.app_access_token;
-const SLACK_REVIEW_CHANNEL_ID = config.slack_store_review_channel_id;
 const SLACK_CRITIAL_REVIEW_CHANNEL_ID = config.slack_store_critical_review_channel_id;
 const SLACK_TEST_CHANNEL_ID = config.slack_test_channel_id;
 const APP_PACKAGE_NAME = config.app_package_name;
@@ -45,15 +43,20 @@ app.get('/notify-new-review', (req, res) => {
                         filteredReviewListCritical.push(rd);
                     }
                     db.push('/' + rd.reviewId, '')
+                    filteredReviewList.reverse();
+                    filteredReviewListCritical.reverse();
                     return true;
                 } else {
                     return false;
                 }
             });
             console.log('sendMsg');
-            return sendMsg('', makeReviewMsgPayload(SLACK_REVIEW_CHANNEL_ID, filteredReviewList));
+            sendMsg(config.app_access_tokens.bucketplace_cs, '', makeReviewMsgPayload(config.slack_store_review_channel_ids.bucketplace_cs, filteredReviewList))
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err.message));
+            return sendMsg(config.app_access_tokens.bucketplace, '', makeReviewMsgPayload(config.slack_store_review_channel_ids.bucketplace, filteredReviewList));
         })
-        .then(res => sendMsg('', makeReviewMsgPayload(SLACK_CRITIAL_REVIEW_CHANNEL_ID, filteredReviewListCritical)))
+        .then(res => sendMsg(config.app_access_tokens.bucketplace, '', makeReviewMsgPayload(SLACK_CRITIAL_REVIEW_CHANNEL_ID, filteredReviewListCritical)))
         .then(res => console.log(res.data))
         .catch(err => console.log(err.message));
 });
@@ -116,11 +119,11 @@ function makeReviewMsgPayload(slackChannelId, reviewList) {
     };
 }
 
-function sendMsg(responseUrl, payload) {
+function sendMsg(appAccessToken, responseUrl, payload) {
     return axios.post(responseUrl ? responseUrl : 'https://slack.com/api/chat.postMessage', JSON.stringify(payload), {
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + APP_ACCESS_TOKEN
+            Authorization: 'Bearer ' + appAccessToken
         }
     });
 }
