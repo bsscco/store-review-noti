@@ -91,7 +91,7 @@ function getAccessToken() {
 }
 
 function getLatestReviewList(limit, accessToken, nextPageToken) {
-    let url = 'https://www.googleapis.com/androidpublisher/v2/applications/' + APP_PACKAGE_NAME + '/reviews?';
+    let url = 'https://www.googleapis.com/androidpublisher/v3/applications/' + APP_PACKAGE_NAME + '/reviews?';
     url += 'maxResults=' + limit;
     url += '&access_token=' + accessToken;
     if (nextPageToken) {
